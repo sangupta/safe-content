@@ -9,25 +9,43 @@ const BLOCKING_PAGE = 'https://sangupta.com/hosted';
  */
 const DEBUG_MODE = true;
 
+const blocked = {
+    videos: new Set(),
+    users: new Set(),
+    channels: new Set(),
+    c: new Set()
+};
+
+function addToSet(set, items) {
+    if (!items || items.length === 0) {
+        return;
+    }
+
+    items.forEach(item => {
+        set.add(item);
+    });
+}
+
 /**
  * List of all blocked videos/users/channels etc. This needs
  * to come from a web URL
  */
-const blocked = {
-    videos: [
-        "k01Pm-5h89k"
-    ],
-    users: [
-        "officialEdwardMaya"
-    ],
-    channels: [
-        "UCBXNpF6k2n8dsI6nBH8q4sQ"
-    ],
-    keywords: [
-        "adopted",
-        "123 go"
-    ]
+async function loadBlockingMetadata() {
+    try {
+        const response = await fetch('https://raw.githubusercontent.com/sangupta/safe-content/main/blocked.json');
+        const json = await response.json();
+
+        debug('Blocking metadata loaded successfully.');
+        addToSet(blocked.videos, json.videos);
+        addToSet(blocked.users, json.users);
+        addToSet(blocked.channels, json.channels);
+        addToSet(blocked.c, json.c);
+    } catch (e) {
+        // eat up
+    }
 }
+
+loadBlockingMetadata();
 
 /**
  * Helper debug function
@@ -127,7 +145,7 @@ function shouldBlock(url) {
     if (path.startsWith('/watch')) {
         const videoID = new URLSearchParams(urlObject.search).get('v');
         debug('video id is: ', videoID);
-        if (blocked.videos.includes(videoID)) {
+        if (blocked.videos.has(videoID)) {
             debug('blocking video with id: ', videoID);
             return true;
         }
@@ -138,7 +156,7 @@ function shouldBlock(url) {
         // check against blocked users
         const user = path.substring('/user/'.length);
         debug('user id is: ', user);
-        if (blocked.users.includes(user)) {
+        if (blocked.users.has(user)) {
             debug('blocking user with id: ', user);
             return true;
         }
@@ -148,7 +166,7 @@ function shouldBlock(url) {
     if (path.startsWith('/channel/')) {
         const channel = path.substring('/channel/'.length);
         debug('channel id is: ', channel);
-        if (blocked.channels.includes(channel)) {
+        if (blocked.channels.has(channel)) {
             debug('blocking channel with id: ', channel);
             return true;
         }
@@ -158,7 +176,7 @@ function shouldBlock(url) {
     if (path.startsWith('/c/')) {
         const channel = path.substring('/c/'.length);
         debug('channel id is: ', channel);
-        if (blocked.channels.includes(channel)) {
+        if (blocked.c.has(channel)) {
             debug('blocking channel with id: ', channel);
             return true;
         }
