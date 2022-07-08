@@ -1,19 +1,35 @@
 # safe-content
 
-Blocks unsafe/stupid/non-sense videos for kids on youtube.com.
+Blocks unsafe/stupid/non-sense videos for kids on https://youtube.com.
 
-As a father I have seen an upsurge in videos that make no sense, for example:
+# Need?
 
-* How to be adopted by billionaire parents
-* How to become popular by the age of 8
+As a father I have seen an upsurge in videos that are too shitty to be watched
+by kids, for example:
+
+* [I was adopted by billionaire family](https://www.youtube.com/watch?v=0GSzdxVpISQ)
+* [Epic hacks to become popular at school](https://www.youtube.com/watch?v=yBZYlro8lA8)
+* [Rich vs Poor vs Giga Rich princess](https://www.youtube.com/watch?v=4bws-rEwnVk)
+* [Hot vs cold prison challenge](https://www.youtube.com/watch?v=ScMjZ_4Akro)
 
 These shitty videos should ideally not even exist. However, I am now fed-up
-blocking vidoes for my daughter. All blocking extensions require to configure
-setup on same machine. Thus, the need for this extension was born.
+blocking vidoes:
 
-This extension reads a list of all users/videos/channels to be blocked via a
-hosted URL. This way I can keep adding to list of blocked videos without the need
-to configure my kids device everytime.
+* All blocking extensions require to configure setup on same machine
+* Youtube "report" option will just remove it from recommendations
+* These child abusers upload these videos from tens/hundreds of different channel names
+
+Thus, the need for this extension was born. This extension reads a list of all 
+users/videos/channels to be blocked via a hosted URL. This way I can keep adding 
+to list of blocked videos without the need to configure my kids device everytime.
+
+# Why can't I block youtube?
+
+Simple two reasons:
+
+* Chrome does not follow **hosts** file blocking on *youtube.com*
+* *youtube.com* is required to Google sign-in
+* Teachers at school use learning material from https://youtube.com
 
 # License
 
