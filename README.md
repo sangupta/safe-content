@@ -7,10 +7,10 @@ Blocks unsafe/stupid/non-sense videos for kids on https://youtube.com.
 As a father I have seen an upsurge in videos that are too shitty to be watched
 by kids, for example:
 
-* [I was adopted by billionaire family](https://www.youtube.com/watch?v=0GSzdxVpISQ)
-* [Epic hacks to become popular at school](https://www.youtube.com/watch?v=yBZYlro8lA8)
-* [Rich vs Poor vs Giga Rich princess](https://www.youtube.com/watch?v=4bws-rEwnVk)
-* [Hot vs cold prison challenge](https://www.youtube.com/watch?v=ScMjZ_4Akro)
+* I was adopted by billionaire family
+* Epic hacks to become popular at school
+* Rich vs Poor vs Giga Rich princess
+* Hot vs cold prison challenge
 
 These shitty videos should ideally not even exist. However, I am now fed-up
 blocking vidoes:
