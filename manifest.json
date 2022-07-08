@@ -1,0 +1,28 @@
+{
+    "name": "Youtube blocker",
+    "description": "Block videos/users/channels for safely browsing youtube.",
+    "version": "1.0",
+    "manifest_version": 3,
+    "background": {
+        "service_worker": "background.js"
+    },
+    "action": {
+        "default_popup": "popup.html"
+    },
+    "permissions": [
+        "tabs",
+        "activeTab",
+        "declarativeNetRequest",
+        "declarativeNetRequestWithHostAccess"
+    ],
+    "content_scripts": [
+        {
+            "matches": [
+                "https://*.youtube.com/*"
+            ],
+            "js": [
+                "content.js"
+            ]
+        }
+    ]
+}
