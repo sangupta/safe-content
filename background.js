@@ -125,7 +125,7 @@ function tabUpdated(tabID, changeInfo, tab) {
  * @param {*} url 
  * @returns 
  */
-function shouldBlock(url) {
+function shouldBlock(url, tabID) {
     if (!url) {
         return false;
     }
@@ -141,16 +141,12 @@ function shouldBlock(url) {
         return false;
     }
 
-    // block videos
-    if (path.startsWith('/watch')) {
-        const videoID = new URLSearchParams(urlObject.search).get('v');
-        debug('video id is: ', videoID);
-        if (blocked.videos.has(videoID)) {
-            debug('blocking video with id: ', videoID);
-            return true;
-        }
-    }
+    return checkPathForBlocking(tabID, path, urlObject);
+}
 
+function checkPathForBlocking(tabID, path, urlObject = {}) {
+    debug('checking for tab: ', tabID);
+    
     // block user
     if (path.startsWith('/user/')) {
         // check against blocked users
@@ -182,6 +178,21 @@ function shouldBlock(url) {
         }
     }
 
+    // block videos
+    if (path.startsWith('/watch')) {
+        const videoID = new URLSearchParams(urlObject.search || '').get('v');
+        if (videoID) {
+            debug('video id is: ', videoID);
+            if (blocked.videos.has(videoID)) {
+                debug('blocking video with id: ', videoID);
+                return true;
+            }
+
+            // check if the channel is blocked for this video
+
+        }
+    }
+
     // video not blocked via id/user/channel
     return false;
 }
@@ -191,3 +202,18 @@ chrome.tabs.onCreated.addListener(newTabCreated);
 
 // handle when tabs are updated
 chrome.tabs.onUpdated.addListener(tabUpdated);
+
+// check blocking requests from content.js
+chrome.runtime.onMessage.addListener(
+    function (request, sender, sendResponse) {
+        if (request.id === 'checkBlocking') {
+            const { link, tabID } = request;
+            debug('checking blocking request from content.js: ', link);
+            if (checkPathForBlocking(tabID, link)) {
+                sendResponse({ blocked: true });
+            } else {
+                sendResponse({ blocked: false });
+            }
+        }
+    }
+);
